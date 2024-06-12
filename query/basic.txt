@@ -1,0 +1,6 @@
+## Connect With Database:
+- sqlcmd -S localhost -U sa -P "Pa55w0rd!"
+
+## Insert Data
+- sqlcmd -S localhost -U sa -P "Pa55w0rd!"  -Q "use demo; CREATE TABLE Data (ID INT, NAME NVARCHAR(255), AGE INT); INSERT INTO Data(ID, Name, Age) VALUES (1, 'John Doe', 25), (2, 'Jane Smith', 30), (3, 'Bob Johnson', 22); Select * from data;"
+- sqlcmd -S localhost -U sa -P "Pa55w0rd!" -Q " use demo; INSERT INTO Data(ID, Name, Age) VALUES (4, 'Anisur Rahman', 26); Select * from data;"

@@ -1,0 +1,10 @@
+WALG_FILE_PREFIX: "/incremental-backup/walg-backup"
+SQLSERVER_BLOB_CERT_FILE: "/incremental-backup/certs/server.crt"
+SQLSERVER_BLOB_KEY_FILE:  "/incremental-backup/certs/server.key"
+SQLSERVER_BLOB_LOCK_FILE: "/incremental-backup/walg/wal-g.lock"
+SQLSERVER_BLOB_HOSTNAME:  "backup.local"
+SQLSERVER_CONNECTION_STRING: "sqlserver://SA:Pa55w0rd!@localhost:1433"
+
+WALG_UPLOAD_CONCURRENCY:   8  # how many block upload requests handle concurrently
+WALG_DOWNLOAD_CONCURRENCY: 8  # how many block read requests handle concurrently
+WALG_LOG_LEVEL: "DEVEL"
