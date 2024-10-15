@@ -1,5 +1,10 @@
 # MSSQLServer Incremental Backup & Recovery POC
 
+## Build Docker Image
+```bash
+$ docker build . --tag sql-incremental-backup:latest
+```
+
 ## Run Docker Image
 ```bash
 $ docker run -d -it --privileged -v \
@@ -40,3 +45,7 @@ $ sqlcmd -S localhost -U sa -P "Pa55w0rd!" -Q "CREATE CREDENTIAL [https://backup
 $ sqlcmd -S localhost -U sa -P "Pa55w0rd!" -Q "CREATE DATABASE demo;"
 $ wal-g backup-push -d demo
 ```
+
+
+## REFERENCE
+- https://www.mssqltips.com/sqlservertip/3209/understanding-sql-server-log-sequence-numbers-for-backups/

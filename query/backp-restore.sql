@@ -34,7 +34,7 @@ use master; BACKUP LOG [demo] to DISK='/var/opt/mssql/backup-dir/log4.bak'
 ----------Restore------
 use master; RESTORE DATABASE [demo] FROM DISK='/var/opt/mssql/backup-dir/full.bak' WITH NORECOVERY;
 
-use master; RESTORE LOG [demo] FROM DISK='/var/opt/mssql/backup-dir/log3.bak' WITH NORECOVERY;
+use master; RESTORE LOG [demo] FROM DISK='/var/opt/mssql/backup-dir/log1.bak' WITH NORECOVERY;
 
 
 ```bash
@@ -50,16 +50,10 @@ RESTORE LOG is terminating abnormally.
 use demo; SELECT * from data;
 
 
-
-
-
-
-
-
 ---CHECK log apply or not
 
 --- Restore HEADERONLY
-SELECT LastLSN FROM RESTORE HEADERONLY FROM DISK='/var/opt/mssql/backup-dir/demo-log.bak'
+RESTORE HEADERONLY FROM DISK='/var/opt/mssql/backup-dir/full.bak'
 
 ---GetDBRestoreLSN
 SELECT MAX(redo_start_lsn) 
@@ -81,8 +75,7 @@ use master; drop database demo;
 
 
 
-SELECT * FROM sys.master_files
-        WHERE database_id=DB_ID('demo') > query_result2.txt
+SELECT * FROM sys.master_files WHERE database_id=DB_ID('demo') > query_result2.txt
 
 
 --------------------WALG-----------------------------
@@ -93,3 +86,26 @@ use master; RESTORE DATABASE [demo] from URL = 'https://backup.local/basebackups
 use master; RESTORE LOG [demo] from URL = 'https://backup.local/wal_005/wal_20240611T062801Z/demo/blob_000' WITH RECOVERY;
 
 RESTORE DATABASE [demo] WITH RECOVERY;
+
+
+
+
+---------------------COPY_ONLY POC--------------------
+
+--Insert Data
+use demo; CREATE TABLE Data (ID INT, NAME NVARCHAR(255), AGE INT); INSERT INTO Data(ID, Name, Age) VALUES (1, 'John Doe', 25), (2, 'Jane Smith', 30), (3, 'Bob Johnson', 22); Select * from data;
+
+use master; BACKUP DATABASE [demo] to DISK='/var/opt/mssql/backup-dir/full.bak';
+
+use demo; INSERT INTO Data(ID, Name, Age) VALUES (4, 'Anisur Rahman', 26); Select * from data;
+
+use master; BACKUP DATABASE [demo] to DISK='/var/opt/mssql/backup-dir/copy_full.bak' WITH COPY_ONLY;
+
+use master; BACKUP LOG [demo] to DISK='/var/opt/mssql/backup-dir/log1.bak'
+
+
+---Observation:
+BACKUPTYPE      FIRST_LSN                       LAST_LSN
+FULL_BACKUP     39000000025000001               39000000025300001
+COPY_ONLY       39000000028400001               39000000028700001
+LOG_BACKUP      39000000025000001               39000000028700001

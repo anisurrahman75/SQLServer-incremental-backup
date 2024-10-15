@@ -1,0 +1,29 @@
+## For geeting a database backup history;
+
+/opt/mssql-tools/bin/sqlcmd -S mssqlserver-ag -U sa -P "Pa55w0rd!" -Q "SELECT bs.database_name, bs.backup_start_date, bs.backup_finish_date, bs.expiration_date, CASE bs.type WHEN 'D' THEN 'Database' WHEN 'I' THEN 'Differential database' WHEN 'L' THEN 'Log' WHEN 'F' THEN 'File or filegroup' WHEN 'G' THEN 'Differential file' WHEN 'P' THEN 'Partial' WHEN 'Q' THEN 'Differential partial' ELSE 'Unknown' END AS backup_type, bs.backup_size, bmf.physical_device_name, bs.recovery_model, bs.user_name, bs.first_lsn, bs.last_lsn, bs.checkpoint_lsn, bs.database_backup_lsn FROM msdb.dbo.backupset AS bs JOIN msdb.dbo.backupmediafamily AS bmf ON bs.media_set_id = bmf.media_set_id WHERE bs.database_name = 'demo' ORDER BY bs.backup_start_date DESC;"
+
+
+
+
+## Connecting with DB:
+
+/opt/mssql-tools/bin/sqlcmd -S mssqlserver-ag -U sa -P "Pa55w0rd!"
+
+## create Secret;
+
+CREATE CREDENTIAL [https://mssqlserver-ag-archiver.demo.svc/basebackups_005] WITH IDENTITY='SHARED ACCESS SIGNATURE', SECRET = 'does_not_matter';
+
+
+## insert Data:
+
+use demo; CREATE TABLE Data (ID INT, NAME NVARCHAR(255), AGE INT); INSERT INTO Data(ID, Name, Age) VALUES (1, 'John Doe', 25), (2, 'Jane Smith', 30), (3, 'Bob Johnson', 22); Select * from data;
+
+--Insert Another Data for log1
+use demo; INSERT INTO Data(ID, Name, Age) VALUES (4, 'Anisur Rahman', 26); Select * from data;
+
+
+
+
+## remove DB to AV-Group
+
+ALTER AVAILABILITY GROUP mssqlserverag REMOVE DATABASE demo; 

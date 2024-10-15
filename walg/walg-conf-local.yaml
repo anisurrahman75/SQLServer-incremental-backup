@@ -1,4 +1,6 @@
-WALG_FILE_PREFIX: "/home/anisur/go/src/github.com/anisurrahman75/SQLServer-incremental-backup/walg-backup"
+# WALG_FILE_PREFIX: "/home/anisur/go/src/github.com/anisurrahman75/SQLServer-incremental-backup/walg-backup-copy"
+# WALG_FULL_BACKUP_PREFIX: "/home/anisur/go/src/github.com/anisurrahman75/SQLServer-incremental-backup/walg-backup"
+
 SQLSERVER_BLOB_CERT_FILE: "/home/anisur/go/src/github.com/anisurrahman75/SQLServer-incremental-backup/certs/server.crt"
 SQLSERVER_BLOB_KEY_FILE:  "/home/anisur/go/src/github.com/anisurrahman75/SQLServer-incremental-backup/certs/server.key"
 SQLSERVER_BLOB_LOCK_FILE: "/home/anisur/go/src/github.com/anisurrahman75/SQLServer-incremental-backup/walg/wal-g.lock"
@@ -8,3 +10,6 @@ SQLSERVER_CONNECTION_STRING: "sqlserver://SA:Pa55w0rd!@localhost:1433"
 WALG_UPLOAD_CONCURRENCY:   8  # how many block upload requests handle concurrently
 WALG_DOWNLOAD_CONCURRENCY: 8  # how many block read requests handle concurrently
 #WALG_LOG_LEVEL: "DEVEL"
+
+GOOGLE_APPLICATION_CREDENTIALS: "/home/anisur/GCS_CREDENTIAL/GOOGLE_SERVICE_ACCOUNT_JSON_KEY"
+WALG_GS_PREFIX: "gs://kubestash-qa/sunny/demo/mssqlserver-ag/full-backup/repository/v1/full-backup/dump"
